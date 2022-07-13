@@ -721,7 +721,7 @@ def mapaFolium(año, temporada):
     with open ("provincias.geojson",'r' ) as infile:
         pacitiesjson = json.load(infile)
 
-    mapa = folium.Map(width=1000,height=400, location=[8.537981, -80.782127], zoom_start=8, tiles='CartoDB positron')
+    mapa = folium.Map(width=750,height=400, location=[8.537981, -80.782127], zoom_start=8, tiles='CartoDB positron')
 
     for _, r in df_provincias.iterrows():
         sim_geo = gpd.GeoSeries(r['geometry']).simplify(tolerance=0.001)
@@ -738,7 +738,7 @@ def mapaFolium(año, temporada):
         if (control<71 and control>0):
             geo_j = folium.GeoJson(data=geo_j,style_function=lambda x: {'fillColor': 'white', 'color': 'red'})
         if (control<0):
-            geo_j = folium.GeoJson(data=geo_j,style_function=lambda x: {'fillColor': 'white', 'color': 'blue'})
+            geo_j = folium.GeoJson(data=geo_j,style_function=lambda x: {'fillColor': 'white', 'color': 'gray'})
         
         html = popup_html(r['DrenajeNom'], datos, año, "Ambos")
         iframe = branca.element.IFrame(html=html,width=510,height=280)
@@ -752,18 +752,19 @@ def mapaFolium(año, temporada):
     folium.TileLayer('Cartodb Positron').add_to(mapa)
 
     mapa.add_child(miniMapa)
-    mapa.save("assets/html/mapaprincipal.html")
+    #mapa.save("assets/html/mapaprincipal.html")
     return mapa
+
+"""
 a=mapaFolium(2009, "Ambos")
 a.save("assets/html/ambos2009.html")
+
 a=mapaFolium(2010, "Ambos")
 a.save("assets/html/ambos2010.html")
 a=mapaFolium(2011, "Ambos")
 a.save("assets/html/ambos2011.html")
 a=mapaFolium(2012, "Ambos")
 a.save("assets/html/ambos2012.html")
-"""
-
 
 a=mapaFolium(2009, "Lluviosa")
 a.save("assets/html/Lluviosa2009.html")
@@ -773,7 +774,6 @@ a=mapaFolium(2011, "Lluviosa")
 a.save("assets/html/Lluviosa2011.html")
 a=mapaFolium(2012, "Lluviosa")
 a.save("assets/html/Lluviosa2012.html")
-
 
 a=mapaFolium(2009, "Seca")
 a.save("assets/html/Seca2009.html")

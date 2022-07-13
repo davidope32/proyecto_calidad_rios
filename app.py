@@ -1,7 +1,7 @@
 import dash
 import dash_bootstrap_components as dbc
 from dash import html
-from dash import Input, Output, dcc
+from dash import Input, Output, dcc, dash_table
 from flask import Flask
 import pandas as pd
 from pandas import MultiIndex, Int16Dtype
@@ -13,6 +13,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import geopandas as gpd
 import queryspaciales as qs
+import prueba as pru
 
 def graficaSearh(busqueda, rango):
     datos= pd.read_excel('datos/datosprueba.xlsx')
@@ -655,6 +656,48 @@ def graficaSearh(busqueda, rango):
     return html.Content(html.Div(tabla))
 
 
+def hacer_tier_list(año):
+    datos= pd.read_excel('datos/datosprueba.xlsx')
+    cal=[[],[]]
+    for _, r in datos.iterrows():
+        cal.append([r["nombre_rio"],pru.calidad(int(año), r["nombre_rio"]) ])
+    cal=pd.DataFrame(cal)
+    cal=cal.dropna(how='all')
+    cal=cal.sort_values(1)
+    cal = cal.rename(columns={0:'Río', 1:'Calidad'})
+    return dash_table.DataTable(cal.to_dict('records'), [{"name": c, "id": c} for c in cal.columns],
+
+        style_cell_conditional=[
+        {
+            'if': {'column_id': c},
+            'textAlign': 'center'
+        } for c in ['Río', 'Calidad']
+    ],
+    style_data={
+        'color': 'black',
+        'backgroundColor': 'pink'
+    },
+    style_table={
+    'width': '350px', 
+    'height': '315px',
+    'overflowY': 'scroll'
+
+    },
+    style_data_conditional=[
+        {
+            'if': {'row_index': 'odd'},
+            'backgroundColor': 'rgb(98, 159, 246)',
+        }
+
+    ],
+    style_header={
+        'backgroundColor': 'rgb(229, 0, 63)',
+        'color': 'white',
+        'fontWeight': 'bold'
+    })
+
+
+
 
     
 
@@ -761,12 +804,19 @@ def mapainicial():
                 html.Div([
                 html.H2(["Explorador de Panamá"],style={"text-align": "center"} ),
                 dcc.Dropdown(['2009', '2010', '2011','2012' ],'2009', id='eleccion_mapa', style={'height': '30px', 'width': '100px', 'color': 'black' }),
-                html.Iframe(id="mapapanama", width=1000, height=400)]),align="start",
+                html.Iframe(id="mapapanama", width=750, height=400)]),align="start",
                 width={"size":6}, style={"height": "100%"},
                 # src="assets/html/ambos2009.html",
 
                 
             ),
+            
+                dbc.Col(html.Div([
+                html.H2("Rios y su calidad "),
+                html.P(["La lista esta de Ríos de Menor calidad a los de mayor de calidad, sin embargo", html.B(" La ponderación utiliza"), html.P("no es la ideal")], style={'textAlign': 'justify'}),
+
+                html.Div(id="tier_list")
+                ]), width={"size":3, "offset": "2"})
 
         
 
@@ -1058,19 +1108,19 @@ def update_map(n_clicks, busqueda, rango):
 
 
 @app.callback(
- dash.dependencies.Output('mapapanama', 'src'),
-[dash.dependencies.Input('eleccion_mapa', 'value')]
-
+ [Output('mapapanama', 'src'),
+ Output('tier_list', component_property='children')],
+Input('eleccion_mapa', 'value')
     )
 def update_image_src(value):
     if(value=="2009"):
-        return "assets/html/ambos2009.html"
+        return "assets/html/ambos2009.html", hacer_tier_list(2009)
     if(value=="2010"):
-        return "assets/html/ambos2010.html"
+        return "assets/html/ambos2010.html", hacer_tier_list(2010)
     if(value=="2011"):
-        return "assets/html/ambos2011.html"
+        return "assets/html/ambos2011.html", hacer_tier_list(2011)
     if(value=="2012"):
-        return "assets/html/ambos2012.html"
+        return "assets/html/ambos2012.html", hacer_tier_list(2012)
 
 
 
