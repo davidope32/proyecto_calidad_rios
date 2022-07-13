@@ -755,10 +755,9 @@ def mapaFolium(año, temporada):
     #mapa.save("assets/html/mapaprincipal.html")
     return mapa
 
-"""
+
 a=mapaFolium(2009, "Ambos")
 a.save("assets/html/ambos2009.html")
-
 a=mapaFolium(2010, "Ambos")
 a.save("assets/html/ambos2010.html")
 a=mapaFolium(2011, "Ambos")
@@ -766,6 +765,7 @@ a.save("assets/html/ambos2011.html")
 a=mapaFolium(2012, "Ambos")
 a.save("assets/html/ambos2012.html")
 
+"""
 a=mapaFolium(2009, "Lluviosa")
 a.save("assets/html/Lluviosa2009.html")
 a=mapaFolium(2010, "Lluviosa")
