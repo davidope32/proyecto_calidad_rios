@@ -721,7 +721,7 @@ def mapaFolium(año, temporada):
     with open ("provincias.geojson",'r' ) as infile:
         pacitiesjson = json.load(infile)
 
-    mapa = folium.Map(width=720,height=350, location=[8.537981, -80.782127], zoom_start=6, tiles='CartoDB positron')
+    mapa = folium.Map(width=720,height=300, location=[8.537981, -80.782127], zoom_start=6, tiles='CartoDB positron')
 
     for _, r in df_provincias.iterrows():
         sim_geo = gpd.GeoSeries(r['geometry']).simplify(tolerance=0.001)

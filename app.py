@@ -840,7 +840,7 @@ def mapainicial():
                 dbc.Col(
                     html.Div([
                         html.Div(id="num_cuenca",style={'font-weight': 'bold'}),
-                        html.Iframe(id="cuenca",width=515, height=300)
+                        html.Iframe(id="cuenca",width=530, height=310)
                         # srcDoc=mapa2._repr_html_()
                         ],),
                 width={"size":2 }, style={"height": "300%"},),
