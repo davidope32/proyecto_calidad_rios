@@ -29,7 +29,7 @@ def saberCuenca(nombre):
 "SHAPE_STLe",
 ST_AsText(geometry) as geometry from cuencas
 
-    where ST_Contains(geometry,(select geometry from rios where  "DrenajeNom"='{}'))
+    where ST_Contains(geometry,(select geometry from rios where  "DrenajeNom"='{}' limit 1))
     """.format(nombre)
 
     cuenca=pd.read_sql(sql,con=conectardatabase())

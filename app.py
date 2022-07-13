@@ -642,11 +642,17 @@ def graficaSearh(busqueda, rango):
 
 
         #fig = px.bar(informacion, x='DBOS09')
-
-
-    return html.Content(
-        html.Div([ ph, dbo, od, turb, no3, col, temp]))
-
+        tabla=dcc.Tabs(id="tabs-styled-with-inline", value='tab-1', children=[
+        dcc.Tab(label='PH', value='tab-1', style=tab_style, selected_style=tab_selected_style, children=[ph]),
+        dcc.Tab(label='DBO', value='tab-2', style=tab_style, selected_style=tab_selected_style, children=[dbo]),
+        dcc.Tab(label='OD', value='tab-3', style=tab_style, selected_style=tab_selected_style, children=[od]),
+        dcc.Tab(label='TURB', value='tab-4', style=tab_style, selected_style=tab_selected_style, children=[turb]),
+        dcc.Tab(label='NO3', value='tab-5', style=tab_style, selected_style=tab_selected_style, children=[no3]),
+        dcc.Tab(label='COL', value='tab-6', style=tab_style, selected_style=tab_selected_style, children=[col]),
+        dcc.Tab(label='TEMP', value='tab-7', style=tab_style, selected_style=tab_selected_style, children=[temp]),
+    ], style=tabs_styles),
+    
+    return html.Content(html.Div(tabla))
 
 
 
@@ -774,7 +780,7 @@ def mapainicial():
                            # style = {"color":"black"}, multi=True, id="rango_opciones"), 
                         html.Div(id='grafica'),
                         #, figure=data
-                        html.B("Años"),
+                        html.B("Años 2000 "),
                         html.Div([ dcc.RangeSlider(9, 12, 1, count=1, value=[9, 9],  tooltip={"placement": "bottom", "always_visible": True},  id="rango_años")])
 
                         ]),
