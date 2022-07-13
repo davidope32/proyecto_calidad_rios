@@ -679,7 +679,7 @@ def hacer_tier_list(año):
     },
     style_table={
     'width': '350px', 
-    'height': '315px',
+    'height': '265px',
     'overflowY': 'scroll'
 
     },
@@ -804,7 +804,7 @@ def mapainicial():
                 html.Div([
                 html.H2(["Explorador de Panamá"],style={"text-align": "center"} ),
                 dcc.Dropdown(['2009', '2010', '2011','2012' ],'2009', id='eleccion_mapa', style={'height': '30px', 'width': '100px', 'color': 'black' }),
-                html.Iframe(id="mapapanama", width=750, height=400)]),align="start",
+                html.Iframe(id="mapapanama", width=650, height=400)]),align="start",
                 width={"size":6}, style={"height": "100%"},
                 # src="assets/html/ambos2009.html",
 
